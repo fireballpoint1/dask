@@ -1335,6 +1335,14 @@ def choose(a, choices):
     return elemwise(variadic_choose, a, *choices)
 
 
+def variadic_select(cond, *choices):
+    return np.select(cond, choices)
+
+
+@derived_from(np)
+def select(cond, choices):
+    return elemwise(variadic_select, cond, *choices)
+
 def _isnonzero_vec(v):
     return bool(np.count_nonzero(v))
 

@@ -1224,6 +1224,22 @@ def test_choose():
     assert_eq(index_dask.choose([0, d]), index_numpy.choose([0, x]))
     assert_eq(index_dask.choose([-d, d]), index_numpy.choose([-x, x]))
 
+def test_select():
+    # test choose function
+    x = np.random.randint(10, size=(15, 16))
+    d = da.from_array(x, chunks=(4, 5))
+
+    condlist = [x < 3, x > 4]
+    choicelist = [x, x**3]
+
+    assert_eq(da.select(condlist, choicelist), np.select(condlist, choicelist))
+    # assert_eq(da.select(d > 5, [-d, d]), np.select(x > 5, [-x, x]))
+    #
+    # # test choose method
+    # index_dask = d > 5
+    # index_numpy = x > 5
+    # assert_eq(index_dask.select([0, d]), index_numpy.select([0, x]))
+    # assert_eq(index_dask.select([-d, d]), index_numpy.select([-x, x]))
 
 def test_piecewise():
     np.random.seed(1337)
